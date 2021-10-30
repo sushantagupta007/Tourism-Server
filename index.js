@@ -23,6 +23,7 @@ async function run() {
     await client.connect();
     const database = client.db("Travel-Agent");
     const dataTable = database.collection("Services")
+    const clientTable = database.collection("Client Feedback")
 
     //Table Find
    
@@ -34,9 +35,21 @@ async function run() {
         res.send(result)
 
     })
+
+    app.get('/Client',async(req,res)=>{
+      const client = await clientTable.find({});
+
+      const clientresult = await client.toArray(); 
+      res.send(clientresult)
+    })
+
+
   }
+
+
   finally{}
 }
+
 
 run().catch()
 
