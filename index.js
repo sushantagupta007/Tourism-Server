@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 
 
 const app = express(); 
-const port = process.env.port ||5000
+const port = process.env.PORT ||5000
 
 
 const cors= require('cors')
@@ -18,6 +18,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
+    console.log("from database")
   client.close();
 });
 
