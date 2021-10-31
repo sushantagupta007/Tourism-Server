@@ -25,15 +25,17 @@ async function run() {
     const database = client.db("Travel-Agent");
     const dataTable = database.collection("Services")
     const clientTable = database.collection("Client Feedback")
+    const orderTable = database.collection("Order Table")
 
     //Table Find
    
 
     app.get('/Services',async(req,res)=>{
         const myDoc = await dataTable.find({});
-      
         const result = await myDoc.toArray(); 
         res.send(result)
+        console.log(result)
+
     })
 
     app.get('/Client',async(req,res)=>{
@@ -43,10 +45,26 @@ async function run() {
       res.send(clientresult)
     })
 
+    app.post('/Manageorder',async(req,res)=>{
+      const postData= req.body 
+      const result = await orderTable.insertOne(postData);
+      console.log(result)
+      res.json(result)
+      
+    })
+
+  app.get('/Manageorder',async(req,res)=>{
+        const myOrder = await orderTable.find({});  
+        const result = await myOrder.toArray(); 
+        res.send(result)
+  })
+
+
+app.delete('/Manageorder',async(req,res)=>{
+  console.log(req.query)
+})
 
   }
-
-
   finally{}
 }
 
