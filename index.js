@@ -1,93 +1,93 @@
-const express = require('express')
-const { MongoClient } = require('mongodb');
+const express = require('express');
+const app  = express(); 
+const port = process.env.PORT ||5000; 
 
+const cors = require('cors');
+const MongoClient = require("mongodb").MongoClient;
 
-const app = express(); 
-const port = process.env.PORT ||5000
+const ObjectId = require('mongodb').ObjectId;
 
-
-const cors= require('cors')
-require('dotenv').config()
-
-
-app.use(cors())
+app.use(cors());
 app.use(express.json())
 
+require('dotenv').config()
 
-
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.m1cep.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.w5u2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-console.log(uri)
+
 async function run() {
-  try{
-    await client.connect();
-    const database = client.db("Travel-Agent");
-    const dataTable = database.collection("Services")
-    const clientTable = database.collection("Client Feedback")
-    const orderTable = database.collection("Order Table")
+    try {
+      await client.connect();
+      const database = client.db("Travel-Agent");
+      const Services = database.collection("Services");
+      const Clients = database.collection("Client Feedback");
 
-    //Table Find
-   
-
-    app.get('/Services',async(req,res)=>{
-        const myDoc = await dataTable.find({});
-        const result = await myDoc.toArray(); 
-        res.send(result)
-        console.log(result)
-
-    })
-
-    app.get('/Client',async(req,res)=>{
-      const client = await clientTable.find({});
-
-      const clientresult = await client.toArray(); 
-      res.send(clientresult)
-    })
-
-    app.post('/Manageorder',async(req,res)=>{
-      const postData= req.body 
-      const result = await orderTable.insertOne(postData);
-      console.log(result)
-      res.json(result)
+      //Insert Data
+        const myorder = database.collection("myorder");
       
-    })
+        app.get('/Services',async(req,res)=>{
+            const ServiceTable = await Services.find({});
+            const resultServices = await ServiceTable.toArray();
+            res.json(resultServices)
+        })
 
-  app.get('/Manageorder',async(req,res)=>{
-        const myOrder = await orderTable.find({});  
-        const result = await myOrder.toArray(); 
-        res.send(result)
-  })
+        app.post('/Services',async(req,res)=>{
+            const newService = req.body
+            const result = await Services.insertOne(newService);
+            console.log(result)
+            res.json(result)
+        })
+        app.get('/Clients',async(req,res)=>{
+            const ClientTable = await Clients.find({});
+            const resultClients = await ClientTable.toArray();
+            res.json(resultClients)
+        })
+        // http://localhost:5000/placeorder
+        app.post('/placeorder',async(req,res)=>{
+            const myorderData = req.body
+            
+            const result = await myorder.insertOne(myorderData);
+            console.log(result)
+            res.json(result)
+        })
+      
+        app.get('/managemyorder/',async(req,res)=>{
+            const myorderTable = await myorder.find({})
+            const resultmyorder = await myorderTable.toArray(); 
+            
+            res.json(resultmyorder); 
+        })
 
+        app.delete('/managemyorder/:_id',async(req,res)=>{
+            const id = req.params._id
+            console.log('deleting',id)
+            
 
-app.delete('/Manageorder',async(req,res)=>{
-  console.log(req.query)
-})
-
+            const query = { _id:ObjectId(id) };
+            const result = await myorder.deleteOne(query);
+            if (result.deletedCount> 0) {
+                console.log("Successfully deleted one document.");
+              } else {
+                console.log("No documents matched the query. Deleted 0 documents.");
+              }
+            res.json(result)
+        })
+    } finally {
+    //   await client.close();
+    }
   }
-  finally{}
-}
-
-
-run().catch()
-
+  run().catch();
 
 
 app.get('/user',(req,res)=>{
-    res.send("I am server")
+    res.send("Hell I am server")
+    console.log("from 5000")
 })
 
 
-app.get('/',(req,res)=>{
-  res.send("renning")
-  console.log("running server")
-})
 app.listen(port,()=>{
-    console.log("listening port",port)
+    console.log("listening ", port)
 })
-
-
-
-
-
-
+//sushanta
+//0esS1mVJHqMpY2bV

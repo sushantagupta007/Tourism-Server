@@ -1,28 +1,19 @@
 {
-  "name": "tourism-or-delivery-website-server-side-sushantagupta007",
+  "name": "tourism-planner-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "start-dev": "nodemon index.jx",
+    "start":"node index.js",
+    "start-dev":"nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/programming-hero-web-course1/tourism-or-delivery-website-server-side-sushantagupta007.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/programming-hero-web-course1/tourism-or-delivery-website-server-side-sushantagupta007/issues"
-  },
-  "homepage": "https://github.com/programming-hero-web-course1/tourism-or-delivery-website-server-side-sushantagupta007#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongodb": "^4.1.3"
+    "mongodb": "^4.1.4"
   }
 }
