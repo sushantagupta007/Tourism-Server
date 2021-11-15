@@ -43,7 +43,7 @@ async function run() {
             const resultClients = await ClientTable.toArray();
             res.json(resultClients)
         })
-        // http://localhost:5000/placeorder
+        // https://radiant-everglades-28341.herokuapp.com/placeorder
         app.post('/placeorder',async(req,res)=>{
             const myorderData = req.body
             
@@ -57,6 +57,26 @@ async function run() {
             const resultmyorder = await myorderTable.toArray(); 
             
             res.json(resultmyorder); 
+        })
+
+        app.get('/managemyorder/:id',async(req,res)=>{
+            const id = req.params.id; 
+            const query = { _id:ObjectId(id) };
+            const singleOrderTable = await myorder.findOne(query)
+            res.json(singleOrderTable)
+            console.log(singleOrderTable);
+        })
+
+        app.put('/managemyorder/updated/:id',async(req,res)=>{
+            const id = req.params.id;
+            const singleOrder = req.body;
+            const query = { _id:ObjectId(id) };
+            const option ={upsert:true}
+            const updated = {
+                $set:{status:"shipped"}
+            }
+            const result = await myorder.updateOne(query, updated);
+            res.json(result)
         })
 
         app.delete('/managemyorder/:_id',async(req,res)=>{
