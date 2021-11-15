@@ -33,18 +33,20 @@ async function run() {
             res.json(resultServices)
         })
 
-        app.post('/users',async(req,res)=>{
-            const userData = req.body
-            console.log(userData)
-            const userTable = await Services.insertOne(userData);
-            console.log(result)
+        
+        app.get('/registeruser',async(req,res)=>{
+            const usersData = await users.find({});
+            const userTable = await usersData.toArray();
+            
+            console.log(userTable)
             res.json(userTable)
         })
-        app.get('/users',async(req,res)=>{
-            const userTable = await users.find({});
-            const userService = await userTable.toArray();
-            res.json(userService)
-            console.log("clicked")
+        app.post('/registeruser',async(req,res)=>{
+            const userData = req.body
+        
+            const userTable = await users.insertOne(userData);
+            console.log(userTable)
+            res.json(userTable)
         })
         app.post('/Services',async(req,res)=>{
             const newService = req.body
