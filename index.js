@@ -22,6 +22,7 @@ async function run() {
       const database = client.db("Travel-Agent");
       const Services = database.collection("Services");
       const Clients = database.collection("Client Feedback");
+      const users = database.collection("users")
 
       //Insert Data
         const myorder = database.collection("myorder");
@@ -32,6 +33,19 @@ async function run() {
             res.json(resultServices)
         })
 
+        app.post('/users',async(req,res)=>{
+            const userData = req.body
+            console.log(userData)
+            const userTable = await Services.insertOne(userData);
+            console.log(result)
+            res.json(userTable)
+        })
+        app.get('/users',async(req,res)=>{
+            const userTable = await users.find({});
+            const userService = await userTable.toArray();
+            res.json(userService)
+            console.log("clicked")
+        })
         app.post('/Services',async(req,res)=>{
             const newService = req.body
             const result = await Services.insertOne(newService);
