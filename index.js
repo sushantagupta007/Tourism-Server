@@ -73,5 +73,3 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-//Travel
-//wCKngdlWYOH0Gq9I
