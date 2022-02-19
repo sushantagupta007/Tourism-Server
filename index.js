@@ -44,8 +44,6 @@ async function run() {
         email:data.email
       }
       const result = await subscriber.insertOne(doc);
-
-      console.log(result.insertedId)
       res.send(doc)
     })
     
