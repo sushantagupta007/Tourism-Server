@@ -5,13 +5,13 @@ const port = 5000
 const cors = require('cors')
 
 
-
+require('dotenv').config()
 
 app.use(cors())
 app.use(express.json())
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = `mongodb+srv:${process.env.user}//:${process.env.password}@cluster0.7jwba.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.7jwba.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
@@ -27,7 +27,6 @@ async function run() {
       const placeData = places.find({})
       const placeArray = await placeData.toArray()
       res.send(placeArray)
-     
     })
     app.get('/blogs',async(req,res)=>{
       const blogDes = blogs.find({})
