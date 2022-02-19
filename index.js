@@ -51,6 +51,9 @@ async function run() {
         const subscriberArray = await subscriberData.toArray()
         res.send(subscriberArray)
     })
+    app.get('/user',(req,res)=>{
+      res.send("hello")
+    })
   } finally {
     // await client.close();
   }
